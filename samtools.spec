@@ -1,13 +1,12 @@
 Name:		samtools
-Version:	0.1.5c
-Release:	4%{?dist}
+Version:	0.1.7a
+Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
 License:	MIT
 URL:		http://samtools.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-Patch0:		samtools-0.1.5c-compilefix.patch
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires:	zlib-devel >= 1.2.3
@@ -21,7 +20,6 @@ manipulating alignments in the SAM format.
 
 %prep
 %setup -q
-%patch0 -p1 -b .compilefix
 
 
 %build
@@ -41,9 +39,10 @@ mkdir -p %{buildroot}%{_mandir}/man1/
 cp -p samtools.1.gz %{buildroot}%{_mandir}/man1/
 
 cd misc/
-install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl \
-  maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl samtools.pl \
-  soap2sam.pl wgsim wgsim_eval.pl zoom2sam.pl %{buildroot}%{_bindir}
+install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
+    maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl sam2vcf.pl	\
+    samtools.pl soap2sam.pl wgsim wgsim_eval.pl zoom2sam.pl		\
+    %{buildroot}%{_bindir}
 
 
 %clean
@@ -52,12 +51,15 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING INSTALL NEWS source.dot examples/
+%doc AUTHORS ChangeLog COPYING INSTALL NEWS examples/ samtools.txt
 %{_bindir}/*
 %{_mandir}/man1/*
 
 
 %changelog
+* Mon Nov 30 2009 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.7a-1
+- Updated to 0.1.7a.
+
 * Sun Jul 26 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.5c-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
