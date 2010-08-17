@@ -1,5 +1,5 @@
 Name:		samtools
-Version:	0.1.7a
+Version:	0.1.8
 Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
@@ -21,6 +21,9 @@ manipulating alignments in the SAM format.
 %prep
 %setup -q
 
+# fix wrong interpreter
+perl -pi -e "s[/software/bin/python][%{__python}]" misc/varfilter.py
+
 
 %build
 make CFLAGS="%{optflags}" samtools razip %{?_smp_mflags}
@@ -40,8 +43,9 @@ cp -p samtools.1.gz %{buildroot}%{_mandir}/man1/
 
 cd misc/
 install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
-    maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl sam2vcf.pl	\
-    samtools.pl soap2sam.pl wgsim wgsim_eval.pl zoom2sam.pl		\
+    maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl psl2sam.pl \
+    sam2vcf.pl samtools.pl soap2sam.pl varfilter.py wgsim wgsim_eval.pl \
+    zoom2sam.pl								\
     %{buildroot}%{_bindir}
 
 
@@ -57,6 +61,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Aug 17 2010 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.8-1
+- Updated to 0.1.8.
+
 * Mon Nov 30 2009 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.7a-1
 - Updated to 0.1.7a.
 
