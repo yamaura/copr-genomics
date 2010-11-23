@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	0.1.8
-Release:	1%{?dist}
+Release:	4%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
@@ -17,6 +17,14 @@ SAM (Sequence Alignment/Map) is a flexible generic format for storing
 nucleotide sequence alignment. SAM tools provide efficient utilities on
 manipulating alignments in the SAM format.
 
+%package devel
+Summary: Header files and libraries for compiling against %{name}
+Group:	 Development/System
+Requires: %name = %version-%release
+Provides: samtools-static = %{version}-%{release}
+
+%description	devel
+Header files and libraries for compiling against %{name}
 
 %prep
 %setup -q
@@ -26,10 +34,10 @@ perl -pi -e "s[/software/bin/python][%{__python}]" misc/varfilter.py
 
 
 %build
-make CFLAGS="%{optflags}" samtools razip %{?_smp_mflags}
+make CFLAGS="%{optflags} -fPIC" samtools razip %{?_smp_mflags}
 
 cd misc/
-make CFLAGS="%{optflags}" %{?_smp_mflags}
+make CFLAGS="%{optflags} -fPIC" %{?_smp_mflags}
 
 
 %install
@@ -37,15 +45,20 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_bindir}
 install -p samtools razip %{buildroot}%{_bindir}
 
-gzip samtools.1
+#header and library for Bio-SamTools
+mkdir -p %{buildroot}%{_includedir}/%{name}
+install -p -m 644 bam.h bgzf.h khash.h faidx.h %{buildroot}%{_includedir}/%{name}
+mkdir -p %{buildroot}%{_libdir}
+install -p -m 644 libbam.a %{buildroot}%{_libdir}
+
 mkdir -p %{buildroot}%{_mandir}/man1/
-cp -p samtools.1.gz %{buildroot}%{_mandir}/man1/
+cp -p samtools.1 %{buildroot}%{_mandir}/man1/
 
 cd misc/
 install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
     maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl psl2sam.pl \
     sam2vcf.pl samtools.pl soap2sam.pl varfilter.py wgsim wgsim_eval.pl \
-    zoom2sam.pl								\
+    zoom2sam.pl		\
     %{buildroot}%{_bindir}
 
 
@@ -59,8 +72,33 @@ rm -rf %{buildroot}
 %{_bindir}/*
 %{_mandir}/man1/*
 
+%files	devel
+%defattr(-,root,root,-)
+%{_includedir}/%{name}/bam.h
+%{_includedir}/%{name}/bgzf.h
+%{_includedir}/%{name}/khash.h
+%{_includedir}/%{name}/faidx.h
+%{_libdir}/libbam.a
 
 %changelog
+* Tue Nov 23 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-4
+- cleanup man page handling
+
+* Sun Oct 10 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-4
+- fix attributes for devel subpackage
+- fix library location
+
+* Sun Sep 26 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-3
+- put headers and library in standard locations
+
+* Mon Sep 6 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-2
+- merge Rasmus' latest changes (0.1.8 update)
+- include bam.h and libbam.a for Bio-SamTools compilation
+- move bam.h and libbam.a to single directory
+- put bgzf.h, khash.h and faidx.h in the same place
+- add -fPIC to CFLAGS to make Bio-SamTools happy
+- add virtual Provide as per guidelines
+
 * Tue Aug 17 2010 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.8-1
 - Updated to 0.1.8.
 
