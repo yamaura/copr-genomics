@@ -1,6 +1,6 @@
 Name:		samtools
-Version:	0.1.8
-Release:	4%{?dist}
+Version:	0.1.12a
+Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
@@ -39,6 +39,9 @@ make CFLAGS="%{optflags} -fPIC" samtools razip %{?_smp_mflags}
 cd misc/
 make CFLAGS="%{optflags} -fPIC" %{?_smp_mflags}
 
+cd ../bcftools
+make CFLAGS="%{optflags} -fPIC" %{?_smp_mflags}
+
 
 %install
 rm -rf %{buildroot}
@@ -53,13 +56,18 @@ install -p -m 644 libbam.a %{buildroot}%{_libdir}
 
 mkdir -p %{buildroot}%{_mandir}/man1/
 cp -p samtools.1 %{buildroot}%{_mandir}/man1/
+cp -p bcftools/bcftools.1 %{buildroot}%{_mandir}/man1/
 
 cd misc/
 install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
-    maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl psl2sam.pl \
-    sam2vcf.pl samtools.pl soap2sam.pl varfilter.py wgsim wgsim_eval.pl \
-    zoom2sam.pl		\
+    maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl psl2sam.pl	\
+    sam2vcf.pl samtools.pl soap2sam.pl varfilter.py wgsim wgsim_eval.pl	\
+    zoom2sam.pl								\
     %{buildroot}%{_bindir}
+
+cd ../bcftools/
+install -p bcf-fix.pl bcftools vcfutils.pl %{buildroot}%{_bindir}
+mv README README.bcftools
 
 
 %clean
@@ -68,9 +76,10 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING INSTALL NEWS examples/ samtools.txt
+%doc AUTHORS ChangeLog COPYING INSTALL NEWS examples/ samtools.txt bcftools/README.bcftools
 %{_bindir}/*
 %{_mandir}/man1/*
+
 
 %files	devel
 %defattr(-,root,root,-)
@@ -80,7 +89,11 @@ rm -rf %{buildroot}
 %{_includedir}/%{name}/faidx.h
 %{_libdir}/libbam.a
 
+
 %changelog
+* Mon Dec  6 2010 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.12a-1
+- Updated to 0.1.12a
+
 * Tue Nov 23 2010 Adam Huffman <bloch@verdurin.com> - 0.1.8-4
 - cleanup man page handling
 
