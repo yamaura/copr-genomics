@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	0.1.12a
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
@@ -48,9 +48,9 @@ rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_bindir}
 install -p samtools razip %{buildroot}%{_bindir}
 
-#header and library for Bio-SamTools
+# header and library files
 mkdir -p %{buildroot}%{_includedir}/%{name}
-install -p -m 644 bam.h bgzf.h khash.h faidx.h %{buildroot}%{_includedir}/%{name}
+install -p -m 644 *.h %{buildroot}%{_includedir}/%{name}
 mkdir -p %{buildroot}%{_libdir}
 install -p -m 644 libbam.a %{buildroot}%{_libdir}
 
@@ -83,14 +83,15 @@ rm -rf %{buildroot}
 
 %files	devel
 %defattr(-,root,root,-)
-%{_includedir}/%{name}/bam.h
-%{_includedir}/%{name}/bgzf.h
-%{_includedir}/%{name}/khash.h
-%{_includedir}/%{name}/faidx.h
+%{_includedir}/%{name}
 %{_libdir}/libbam.a
 
 
 %changelog
+* Mon Dec  6 2010 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.12a-2
+- Fixed header files directory ownership
+- Added missing header files
+
 * Mon Dec  6 2010 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.12a-1
 - Updated to 0.1.12a
 
