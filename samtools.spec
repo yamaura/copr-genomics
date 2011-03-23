@@ -1,12 +1,13 @@
 Name:		samtools
-Version:	0.1.12a
-Release:	3%{?dist}
+Version:	0.1.14
+Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
 License:	MIT
 URL:		http://samtools.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Patch0:		samtools-0.1.14-soname.patch
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires:	zlib-devel >= 1.2.3
@@ -14,26 +15,42 @@ BuildRequires:	ncurses-devel
 
 %description
 SAM (Sequence Alignment/Map) is a flexible generic format for storing
-nucleotide sequence alignment. SAM tools provide efficient utilities on
-manipulating alignments in the SAM format.
+nucleotide sequence alignment.
+SAM Tools provide various utilities for manipulating alignments in the
+SAM format, including sorting, merging, indexing and generating
+alignments in a per-position format.
+
 
 %package devel
-Summary: Header files and libraries for compiling against %{name}
-Group:	 Development/System
-Requires: %name = %version-%release
-Provides: samtools-static = %{version}-%{release}
+Summary:	Header files and libraries for compiling against %{name}
+Group:		Development/Libraries
+Requires:	%{name}-libs = %{version}-%{release}
 
-%description	devel
+%description devel
 Header files and libraries for compiling against %{name}
+
+
+%package libs
+Summary:	Libraries for applications using %{name}
+Group:		System Environment/Libraries
+
+%description libs
+Libraries for applications using %name
+
 
 %prep
 %setup -q
+%patch0 -p1 -b .soname
 
 # fix wrong interpreter
 perl -pi -e "s[/software/bin/python][%{__python}]" misc/varfilter.py
 
+# fix eol encoding
+sed -i 's/\r//' misc/export2sam.pl
+
 
 %build
+make CFLAGS="%{optflags}" dylib %{?_smp_mflags}
 make CFLAGS="%{optflags} -fPIC" samtools razip %{?_smp_mflags}
 
 cd misc/
@@ -52,7 +69,9 @@ install -p samtools razip %{buildroot}%{_bindir}
 mkdir -p %{buildroot}%{_includedir}/%{name}
 install -p -m 644 *.h %{buildroot}%{_includedir}/%{name}
 mkdir -p %{buildroot}%{_libdir}
-install -p -m 644 libbam.a %{buildroot}%{_libdir}
+strip libbam.so.1
+install -p -m 755 libbam.so.1 %{buildroot}%{_libdir}
+ln -sf libbam.so.1 %{buildroot}%{_libdir}/libbam.so
 
 mkdir -p %{buildroot}%{_mandir}/man1/
 cp -p samtools.1 %{buildroot}%{_mandir}/man1/
@@ -66,7 +85,7 @@ install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
     %{buildroot}%{_bindir}
 
 cd ../bcftools/
-install -p bcf-fix.pl bcftools vcfutils.pl %{buildroot}%{_bindir}
+install -p bcftools vcfutils.pl %{buildroot}%{_bindir}
 mv README README.bcftools
 
 
@@ -74,9 +93,15 @@ mv README README.bcftools
 rm -rf %{buildroot}
 
 
+%post libs -p /sbin/ldconfig
+
+
+%postun libs -p /sbin/ldconfig
+
+
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING INSTALL NEWS examples/ samtools.txt bcftools/README.bcftools
+%doc AUTHORS ChangeLog COPYING INSTALL NEWS examples/ bcftools/README.bcftools bcftools/bcf.tex
 %{_bindir}/*
 %{_mandir}/man1/*
 
@@ -84,10 +109,19 @@ rm -rf %{buildroot}
 %files	devel
 %defattr(-,root,root,-)
 %{_includedir}/%{name}
-%{_libdir}/libbam.a
+%{_libdir}/libbam.so
+
+
+%files libs
+%defattr(-,root,root,-)
+%{_libdir}/libbam.so.*
 
 
 %changelog
+* Wed Mar 23 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.14-1
+- Updated to 0.1.14
+- Build shared library instead of static
+
 * Wed Feb 09 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.12a-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
 
