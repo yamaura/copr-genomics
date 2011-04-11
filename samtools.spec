@@ -1,5 +1,5 @@
 Name:		samtools
-Version:	0.1.14
+Version:	0.1.15
 Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
@@ -118,6 +118,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Apr 11 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.15-1
+- Updated to 0.1.15
+
 * Wed Mar 23 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.14-1
 - Updated to 0.1.14
 - Build shared library instead of static
