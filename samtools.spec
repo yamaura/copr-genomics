@@ -1,5 +1,5 @@
 Name:		samtools
-Version:	0.1.16
+Version:	0.1.18
 Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
@@ -75,7 +75,7 @@ ln -sf libbam.so.1 %{buildroot}%{_libdir}/libbam.so
 
 mkdir -p %{buildroot}%{_mandir}/man1/
 cp -p samtools.1 %{buildroot}%{_mandir}/man1/
-cp -p bcftools/bcftools.1 %{buildroot}%{_mandir}/man1/
+#cp -p bcftools/bcftools.1 %{buildroot}%{_mandir}/man1/
 
 cd misc/
 install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
@@ -118,6 +118,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Sep  6 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.18-1
+- Updated to 0.1.18
+
 * Tue May 10 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.16-1
 - Updated to 0.1.16
 
