@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	0.1.18
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
@@ -81,7 +81,7 @@ cd misc/
 install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
     maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl psl2sam.pl	\
     sam2vcf.pl samtools.pl soap2sam.pl varfilter.py wgsim wgsim_eval.pl	\
-    zoom2sam.pl								\
+    zoom2sam.pl seqtk	   	       		    			\
     %{buildroot}%{_bindir}
 
 cd ../bcftools/
@@ -118,6 +118,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Oct 26 2011 Adam Huffman <verdurin@fedoraproject.org> - 0.1.18-2
+- make sure new seqtk tool included
+
 * Tue Sep  6 2011 Rasmus Ory Nielsen <ron@ron.dk> - 0.1.18-1
 - Updated to 0.1.18
 
