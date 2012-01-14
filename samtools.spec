@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	0.1.18
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
@@ -118,6 +118,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Jan 14 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.18-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
+
 * Wed Oct 26 2011 Adam Huffman <verdurin@fedoraproject.org> - 0.1.18-2
 - make sure new seqtk tool included
 
