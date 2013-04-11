@@ -1,6 +1,6 @@
 Name:		samtools
-Version:	0.1.18
-Release:	5%{?dist}
+Version:	0.1.19
+Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
@@ -81,7 +81,7 @@ cd misc/
 install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
     maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl psl2sam.pl	\
     sam2vcf.pl samtools.pl soap2sam.pl varfilter.py wgsim wgsim_eval.pl	\
-    zoom2sam.pl seqtk	   	       		    			\
+    zoom2sam.pl  	       		    				\
     %{buildroot}%{_bindir}
 
 cd ../bcftools/
@@ -101,7 +101,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING INSTALL NEWS examples/ bcftools/README.bcftools bcftools/bcf.tex
+%doc AUTHORS ChangeLog.old COPYING INSTALL NEWS examples/ bcftools/README.bcftools bcftools/bcf.tex
 %{_bindir}/*
 %{_mandir}/man1/*
 
@@ -118,6 +118,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Thu Apr 11 2013 Tom Callaway <spot@fedoraproject.org> - 0.1.19-1
+- update to 0.1.19
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.18-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
