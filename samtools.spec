@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	0.1.19
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
@@ -118,6 +118,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Wed Jul 17 2013 Petr Pisar <ppisar@redhat.com> - 0.1.19-2
+- Perl 5.18 rebuild
+
 * Thu Apr 11 2013 Tom Callaway <spot@fedoraproject.org> - 0.1.19-1
 - update to 0.1.19
 
