@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	0.1.19
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
@@ -8,6 +8,7 @@ License:	MIT
 URL:		http://samtools.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 Patch0:		samtools-0.1.14-soname.patch
+Patch1:		samtools-0.1.19-faidx_fetch_seq2.patch
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires:	zlib-devel >= 1.2.3
@@ -41,6 +42,7 @@ Libraries for applications using %name
 %prep
 %setup -q
 %patch0 -p1 -b .soname
+%patch1 -p1 -b .seq2
 
 # fix wrong interpreter
 perl -pi -e "s[/software/bin/python][%{__python}]" misc/varfilter.py
@@ -118,6 +120,9 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Mon Jun  9 2014 Tom Callaway <spot@fedoraproject.org> - 0.1.19-5
+- add faidx_fetch_seq2 function from rsamtools
+
 * Sun Jun 08 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.19-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
