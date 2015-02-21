@@ -1,12 +1,12 @@
 Name:		samtools
-Version:	0.1.19
-Release:	6%{?dist}
+Version:	1.2
+Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
 License:	MIT
-URL:		http://samtools.sourceforge.net/
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+URL:		http://www.htslib.org
+Source0:	https://github.com/%{name}/%{name}/releases/download/%{version}/%{name}-%{version}.tar.bz2
 Patch0:		samtools-0.1.14-soname.patch
 Patch1:		samtools-0.1.19-faidx_fetch_seq2.patch
 BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
@@ -120,6 +120,10 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Sat Feb 21 2015 Adam Huffman <bloch@verdurin.com> - 1.2-1
+- Update to new htslib-based 1.2 release
+- New URL
+
 * Mon Aug 18 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.1.19-6
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
