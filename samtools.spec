@@ -11,7 +11,6 @@ Patch0:		samtools-0.1.14-soname.patch
 Patch1:		samtools-0.1.19-faidx_fetch_seq2.patch
 # The Rsamtools upstream is fixing issues in the samtools 0.1.19 codebase
 Patch2:		samtools-0.1.19-R-fixes.patch
-BuildRoot:	%(mktemp -ud %{_tmppath}/%{name}-%{version}-%{release}-XXXXXX)
 
 BuildRequires:	perl-generators
 BuildRequires:	zlib-devel >= 1.2.3
