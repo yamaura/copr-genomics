@@ -94,9 +94,6 @@ install -p bcftools vcfutils.pl %{buildroot}%{_bindir}
 mv README README.bcftools
 
 
-%clean
-rm -rf %{buildroot}
-
 
 %post libs -p /sbin/ldconfig
 
