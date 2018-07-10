@@ -102,20 +102,17 @@ mv README README.bcftools
 
 
 %files
-%defattr(-,root,root,-)
 %doc AUTHORS ChangeLog.old COPYING INSTALL NEWS examples/ bcftools/README.bcftools bcftools/bcf.tex
 %{_bindir}/*
 %{_mandir}/man1/*
 
 
 %files	devel
-%defattr(-,root,root,-)
 %{_includedir}/%{name}
 %{_libdir}/libbam.so
 
 
 %files libs
-%defattr(-,root,root,-)
 %{_libdir}/libbam.so.*
 
 
