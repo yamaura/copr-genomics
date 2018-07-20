@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	0.1.19
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
@@ -12,6 +12,7 @@ Patch1:		samtools-0.1.19-faidx_fetch_seq2.patch
 # The Rsamtools upstream is fixing issues in the samtools 0.1.19 codebase
 Patch2:		samtools-0.1.19-R-fixes.patch
 
+BuildRequires:	gcc
 BuildRequires:	perl-generators
 BuildRequires:	zlib-devel >= 1.2.3
 BuildRequires:	ncurses-devel
@@ -117,6 +118,9 @@ mv README README.bcftools
 
 
 %changelog
+* Fri Jul 20 2018 Adam Huffman <bloch@verdurin.com> - 0.1.19-15
+- Add BR for gcc
+
 * Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.19-14
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
