@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	0.1.19
-Release:	15%{?dist}
+Release:	16%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 Group:		Applications/Engineering
@@ -13,6 +13,7 @@ Patch1:		samtools-0.1.19-faidx_fetch_seq2.patch
 Patch2:		samtools-0.1.19-R-fixes.patch
 
 BuildRequires:	gcc
+BuildRequires:	python2
 BuildRequires:	perl-generators
 BuildRequires:	zlib-devel >= 1.2.3
 BuildRequires:	ncurses-devel
@@ -118,6 +119,9 @@ mv README README.bcftools
 
 
 %changelog
+* Wed Jul 25 2018 Adam Huffman <bloch@verdurin.com> - 0.1.19-16
+- Add BR for python2
+
 * Fri Jul 20 2018 Adam Huffman <bloch@verdurin.com> - 0.1.19-15
 - Add BR for gcc
 
