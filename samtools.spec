@@ -97,10 +97,7 @@ mv README README.bcftools
 
 
 
-%post libs -p /sbin/ldconfig
-
-
-%postun libs -p /sbin/ldconfig
+%ldconfig_scriptlets libs
 
 
 %files
