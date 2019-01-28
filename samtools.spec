@@ -3,7 +3,6 @@ Version:	0.1.19
 Release:	16%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
-Group:		Applications/Engineering
 License:	MIT
 URL:		http://samtools.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
@@ -28,7 +27,6 @@ alignments in a per-position format.
 
 %package devel
 Summary:	Header files and libraries for compiling against %{name}
-Group:		Development/Libraries
 Requires:	%{name}-libs = %{version}-%{release}
 
 %description devel
@@ -37,7 +35,6 @@ Header files and libraries for compiling against %{name}
 
 %package libs
 Summary:	Libraries for applications using %{name}
-Group:		System Environment/Libraries
 
 %description libs
 Libraries for applications using %name
