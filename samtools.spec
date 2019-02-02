@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	0.1.19
-Release:	16%{?dist}
+Release:	17%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 License:	MIT
@@ -113,6 +113,9 @@ mv README README.bcftools
 
 
 %changelog
+* Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.19-17
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
+
 * Wed Jul 25 2018 Adam Huffman <bloch@verdurin.com> - 0.1.19-16
 - Add BR for python2
 
