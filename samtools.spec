@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	0.1.19
-Release:	17%{?dist}
+Release:	18%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 License:	MIT
@@ -47,7 +47,7 @@ Libraries for applications using %name
 %patch2 -p1 -b .Rfixes
 
 # fix wrong interpreter
-perl -pi -e "s[/software/bin/python][%{__python}]" misc/varfilter.py
+perl -pi -e "s[/software/bin/python][%{__python2}]" misc/varfilter.py
 
 # fix eol encoding
 sed -i 's/\r//' misc/export2sam.pl
@@ -113,6 +113,9 @@ mv README README.bcftools
 
 
 %changelog
+* Wed Jul 10 2019 Petr Pisar <ppisar@redhat.com> - 0.1.19-18
+- varfilter.py is a Python 2 code (bug #1675976)
+
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.19-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
