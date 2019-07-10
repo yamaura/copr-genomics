@@ -79,7 +79,7 @@ ln -sf libbam.so.1 %{buildroot}%{_libdir}/libbam.so
 
 mkdir -p %{buildroot}%{_mandir}/man1/
 cp -p samtools.1 %{buildroot}%{_mandir}/man1/
-#cp -p bcftools/bcftools.1 %{buildroot}%{_mandir}/man1/
+#cp -p bcftools/bcftools.1 %%{buildroot}%%{_mandir}/man1/
 
 cd misc/
 install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
