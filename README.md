@@ -1,3 +1,0 @@
-# htslib
-
-The htslib package
