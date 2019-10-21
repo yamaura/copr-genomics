@@ -3,7 +3,7 @@
 
 Name:           htslib
 Version:        1.9
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        C library for high-throughput sequencing data formats
 
 # The entire source code is MIT/Expat except cram/ which is Modified-BSD.
@@ -16,6 +16,8 @@ Source0:        https://github.com/samtools/%{name}/releases/download/%{version}
 
 BuildRequires:  gcc
 BuildRequires:  bzip2-devel
+BuildRequires:  libcurl-devel
+BuildRequires:  openssl-devel
 BuildRequires:  xz-devel
 BuildRequires:  zlib-devel
 
@@ -47,10 +49,18 @@ the htsfile identifier tool, and the bgzip compression utility.
 %setup -q
 
 %build
-%make_build CFLAGS="%{optflags}" LDFLAGS="%{build_ldflags}"
+%configure CFLAGS="%{optflags}" LDFLAGS="%{build_ldflags}" \
+    --prefix=%{_prefix} \
+    --libdir=%{_libdir} \
+    --enable-plugins \
+    --with-plugin-path='%{_usr}/local/libexec/htslib:$(plugindir)' \
+    --enable-gcs \
+    --enable-libcurl \
+    --enable-s3
+%make_build
 
 %install
-%make_install prefix=%{_prefix} libdir=%{_libdir}
+%make_install
 pushd %{buildroot}/%{_libdir}
 chmod 755 libhts.so.%{version}
 popd
@@ -65,6 +75,11 @@ rm -f %{buildroot}/%{_libdir}/libhts.a
 %doc NEWS
 %{_libdir}/libhts.so.%{version}
 %{_libdir}/libhts.so.%{so_version}
+# The plugin so files should be in the main package,
+# as they are loaded when libhts.so.%%{so_version} is used.
+%{_libexecdir}/%{name}/hfile_gcs.so
+%{_libexecdir}/%{name}/hfile_libcurl.so
+%{_libexecdir}/%{name}/hfile_s3.so
 
 %files devel
 %{_includedir}/htslib
@@ -84,6 +99,13 @@ rm -f %{buildroot}/%{_libdir}/libhts.a
 
 
 %changelog
+* Mon Oct 21 2019 Jun Aruga <jaruga@redhat.com> - 1.9-2
+- Add configure script.
+- Enable separately-compiled plugins.
+- Enable support for Google Cloud Storage URLs.
+- Enable libcurl-based support for http/https/etc URLs.
+- Enable support for Amazon AWS S3 URLs.
+
 * Fri Sep 06 2019 Jun Aruga <jaruga@redhat.com> - 1.9-1
 - Update for htslib version 1.9
 
