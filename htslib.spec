@@ -80,14 +80,15 @@ rm -f %{buildroot}/%{_libdir}/libhts.a
 %{_libexecdir}/%{name}/hfile_gcs.so
 %{_libexecdir}/%{name}/hfile_libcurl.so
 %{_libexecdir}/%{name}/hfile_s3.so
+# The man5 pages are aimed at users.
+%{_mandir}/man5/faidx.5*
+%{_mandir}/man5/sam.5*
+%{_mandir}/man5/vcf.5*
 
 %files devel
 %{_includedir}/htslib
 %{_libdir}/libhts.so
 %{_libdir}/pkgconfig/htslib.pc
-%{_mandir}/man5/faidx.5*
-%{_mandir}/man5/sam.5*
-%{_mandir}/man5/vcf.5*
 
 %files tools
 %{_bindir}/bgzip
@@ -99,12 +100,13 @@ rm -f %{buildroot}/%{_libdir}/libhts.a
 
 
 %changelog
-* Mon Oct 21 2019 Jun Aruga <jaruga@redhat.com> - 1.9-2
+* Tue Oct 22 2019 Jun Aruga <jaruga@redhat.com> - 1.9-2
 - Add configure script.
 - Enable separately-compiled plugins.
 - Enable support for Google Cloud Storage URLs.
 - Enable libcurl-based support for http/https/etc URLs.
 - Enable support for Amazon AWS S3 URLs.
+- Move the man5 page files to main package.
 
 * Fri Sep 06 2019 Jun Aruga <jaruga@redhat.com> - 1.9-1
 - Update for htslib version 1.9
