@@ -3,7 +3,7 @@
 
 Name:           htslib
 Version:        1.9
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        C library for high-throughput sequencing data formats
 
 # The entire source code is MIT/Expat except cram/ which is Modified-BSD.
@@ -77,6 +77,7 @@ rm -f %{buildroot}/%{_libdir}/libhts.a
 %{_libdir}/libhts.so.%{so_version}
 # The plugin so files should be in the main package,
 # as they are loaded when libhts.so.%%{so_version} is used.
+%dir %{_libexecdir}/%{name}
 %{_libexecdir}/%{name}/hfile_gcs.so
 %{_libexecdir}/%{name}/hfile_libcurl.so
 %{_libexecdir}/%{name}/hfile_s3.so
@@ -86,7 +87,8 @@ rm -f %{buildroot}/%{_libdir}/libhts.a
 %{_mandir}/man5/vcf.5*
 
 %files devel
-%{_includedir}/htslib
+%dir %{_includedir}/%{name}
+%{_includedir}/%{name}/*.h
 %{_libdir}/libhts.so
 %{_libdir}/pkgconfig/htslib.pc
 
@@ -100,6 +102,11 @@ rm -f %{buildroot}/%{_libdir}/libhts.a
 
 
 %changelog
+* Sun Oct 27 2019 Jun Aruga <jaruga@redhat.com> - 1.9-3
+- Fix a bug that %%{_libexecdir}/%%{name} directory is not removed,
+  when uninstalling the package "rpm -e htslib".
+- Add %%dir to directories to verify the files in the directory.
+
 * Tue Oct 22 2019 Jun Aruga <jaruga@redhat.com> - 1.9-2
 - Add configure script.
 - Enable separately-compiled plugins.
