@@ -1,19 +1,20 @@
 Name:		samtools
-Version:	0.1.19
-Release:	20%{?dist}
+Version:	1.9
+Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 License:	MIT
-URL:		http://samtools.sourceforge.net/
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-Patch0:		samtools-0.1.14-soname.patch
-Patch1:		samtools-0.1.19-faidx_fetch_seq2.patch
-# The Rsamtools upstream is fixing issues in the samtools 0.1.19 codebase
-Patch2:		samtools-0.1.19-R-fixes.patch
+URL:		http://www.htslib.org/
+Source0:	https://github.com/%{name}/%{name}/releases/download/%{version}/%{name}-%{version}.tar.bz2
 
 BuildRequires:	gcc
-BuildRequires:	zlib-devel >= 1.2.3
+BuildRequires:	htslib-devel
+BuildRequires:	htslib-tools
 BuildRequires:	ncurses-devel
+BuildRequires:	zlib-devel
+# It's used in make test.
+BuildRequires:	perl-interpreter
+BuildRequires:	perl-Getopt-Long
 
 %description
 SAM (Sequence Alignment/Map) is a flexible generic format for storing
@@ -23,96 +24,75 @@ SAM format, including sorting, merging, indexing and generating
 alignments in a per-position format.
 
 
-%package devel
-Summary:	Header files and libraries for compiling against %{name}
-Requires:	%{name}-libs = %{version}-%{release}
-
-%description devel
-Header files and libraries for compiling against %{name}
-
-
-%package libs
-Summary:	Libraries for applications using %{name}
-
-%description libs
-Libraries for applications using %name
-
-
 %prep
 %setup -q
-%patch0 -p1 -b .soname
-%patch1 -p1 -b .seq2
-%patch2 -p1 -b .Rfixes
+
+# Remove INSTALL file to suppress rpmlint warning.
+rm -f INSTALL
+
+
+%build
+%configure CFLAGS="%{optflags}" LDFLAGS="%{build_ldflags}" \
+  --prefix=%{_prefix} \
+  --with-htslib=system
+%make_build
+
+
+%install
+%make_install
 
 # Remove misc/varfilter.py script using Python 2,
 # as it has not been usable since 2011.
 # https://github.com/samtools/samtools/commit/2c1daf5
-rm -f misc/varfilter.py
+rm -f %{buildroot}%{_bindir}/varfilter.py
 
-# fix eol encoding
-sed -i 's/\r//' misc/export2sam.pl
-
-
-%build
-make CFLAGS="%{optflags}" dylib %{?_smp_mflags}
-make CFLAGS="%{optflags} -fPIC" samtools razip %{?_smp_mflags}
-
-cd misc/
-make CFLAGS="%{optflags} -fPIC" %{?_smp_mflags}
-
-cd ../bcftools
-make CFLAGS="%{optflags} -fPIC" %{?_smp_mflags}
+# Replace shebang for /usr/lib/rpm/redhat/brp-mangle-shebangs check.
+for file in $(grep -l '^#!/usr/bin/env perl' %{buildroot}%{_bindir}/*); do
+  sed -i '1 s|/usr/bin/env perl|/usr/bin/perl|' "${file}"
+done
 
 
-%install
-rm -rf %{buildroot}
-mkdir -p %{buildroot}%{_bindir}
-install -p samtools razip %{buildroot}%{_bindir}
+%check
+# Check if samtools is built with system htslib.
+ldd samtools | grep -E '/lib(64)?/libhts\.so\.'
 
-# header and library files
-mkdir -p %{buildroot}%{_includedir}/%{name}
-install -p -m 644 *.h %{buildroot}%{_includedir}/%{name}
-mkdir -p %{buildroot}%{_libdir}
-strip libbam.so.1
-install -p -m 755 libbam.so.1 %{buildroot}%{_libdir}
-ln -sf libbam.so.1 %{buildroot}%{_libdir}/libbam.so
-
-mkdir -p %{buildroot}%{_mandir}/man1/
-cp -p samtools.1 %{buildroot}%{_mandir}/man1/
-#cp -p bcftools/bcftools.1 %%{buildroot}%%{_mandir}/man1/
-
-cd misc/
-install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
-    maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl psl2sam.pl	\
-    sam2vcf.pl samtools.pl soap2sam.pl wgsim wgsim_eval.pl	\
-    zoom2sam.pl  	       		    				\
-    %{buildroot}%{_bindir}
-
-cd ../bcftools/
-install -p bcftools vcfutils.pl %{buildroot}%{_bindir}
-mv README README.bcftools
-
-
-
-%ldconfig_scriptlets libs
+make test
 
 
 %files
-%doc AUTHORS ChangeLog.old COPYING INSTALL NEWS examples/ bcftools/README.bcftools bcftools/bcf.tex
-%{_bindir}/*
-%{_mandir}/man1/*
-
-
-%files	devel
-%{_includedir}/%{name}
-%{_libdir}/libbam.so
-
-
-%files libs
-%{_libdir}/libbam.so.*
+%doc AUTHORS ChangeLog.old NEWS examples/
+%license LICENSE
+# We do not use a wildcard to list bin files, because this often leads
+# to problems when the name changes or something additional is installed.
+%{_bindir}/ace2sam
+%{_bindir}/blast2sam.pl
+%{_bindir}/bowtie2sam.pl
+%{_bindir}/export2sam.pl
+%{_bindir}/interpolate_sam.pl
+%{_bindir}/maq2sam-long
+%{_bindir}/maq2sam-short
+%{_bindir}/md5fa
+%{_bindir}/md5sum-lite
+%{_bindir}/novo2sam.pl
+%{_bindir}/plot-bamstats
+%{_bindir}/psl2sam.pl
+%{_bindir}/sam2vcf.pl
+%{_bindir}/samtools
+%{_bindir}/samtools.pl
+%{_bindir}/seq_cache_populate.pl
+%{_bindir}/soap2sam.pl
+%{_bindir}/wgsim
+%{_bindir}/wgsim_eval.pl
+%{_bindir}/zoom2sam.pl
+%{_mandir}/man1/samtools.1*
+%{_mandir}/man1/wgsim.1*
 
 
 %changelog
+* Mon Nov 04 2019 Jun Aruga <jaruga@redhat.com> - 1.9-1
+- Update to 1.9
+- Remove devel and libs sub packges, as "make dylib" was removed.
+
 * Fri Nov 01 2019 Jun Aruga <jaruga@redhat.com> - 0.1.19-20
 - Remove Python 2 dependency (rhbz#1738176).
 
