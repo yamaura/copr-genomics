@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	0.1.19
-Release:	19%{?dist}
+Release:	20%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 License:	MIT
@@ -12,8 +12,6 @@ Patch1:		samtools-0.1.19-faidx_fetch_seq2.patch
 Patch2:		samtools-0.1.19-R-fixes.patch
 
 BuildRequires:	gcc
-BuildRequires:	python2
-BuildRequires:	perl-generators
 BuildRequires:	zlib-devel >= 1.2.3
 BuildRequires:	ncurses-devel
 
@@ -46,8 +44,10 @@ Libraries for applications using %name
 %patch1 -p1 -b .seq2
 %patch2 -p1 -b .Rfixes
 
-# fix wrong interpreter
-perl -pi -e "s[/software/bin/python][%{__python2}]" misc/varfilter.py
+# Remove misc/varfilter.py script using Python 2,
+# as it has not been usable since 2011.
+# https://github.com/samtools/samtools/commit/2c1daf5
+rm -f misc/varfilter.py
 
 # fix eol encoding
 sed -i 's/\r//' misc/export2sam.pl
@@ -84,7 +84,7 @@ cp -p samtools.1 %{buildroot}%{_mandir}/man1/
 cd misc/
 install -p blast2sam.pl bowtie2sam.pl export2sam.pl interpolate_sam.pl	\
     maq2sam-long maq2sam-short md5fa md5sum-lite novo2sam.pl psl2sam.pl	\
-    sam2vcf.pl samtools.pl soap2sam.pl varfilter.py wgsim wgsim_eval.pl	\
+    sam2vcf.pl samtools.pl soap2sam.pl wgsim wgsim_eval.pl	\
     zoom2sam.pl  	       		    				\
     %{buildroot}%{_bindir}
 
@@ -113,6 +113,9 @@ mv README README.bcftools
 
 
 %changelog
+* Fri Nov 01 2019 Jun Aruga <jaruga@redhat.com> - 0.1.19-20
+- Remove Python 2 dependency (rhbz#1738176).
+
 * Fri Jul 26 2019 Fedora Release Engineering <releng@fedoraproject.org> - 0.1.19-19
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
