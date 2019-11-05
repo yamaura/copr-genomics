@@ -3,7 +3,7 @@
 
 Name:           htslib
 Version:        1.9
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        C library for high-throughput sequencing data formats
 
 # The entire source code is MIT/Expat except cram/ which is Modified-BSD.
@@ -30,6 +30,9 @@ and is the core library used by samtools and bcftools.
 %package        devel
 Summary:        Development files for %{name}
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+# zlib-devel is required for 1.9; remove when bumping to next HTSlib release.
+# See <https://github.com/samtools/htslib/commit/7a215862ccfeffac12584d754836f66ce2641a47>
+Requires:       zlib-devel
 
 %description    devel
 The %{name}-devel package contains libraries and header files for
@@ -58,6 +61,9 @@ the htsfile identifier tool, and the bgzip compression utility.
     --enable-libcurl \
     --enable-s3
 %make_build
+
+# As we don't install libhts.a, the .private keywords are irrelevant.
+sed -i -E '/^(Libs|Requires)\.private:/d' htslib.pc.tmp
 
 %install
 %make_install
@@ -102,6 +108,11 @@ rm -f %{buildroot}/%{_libdir}/libhts.a
 
 
 %changelog
+* Tue Nov 05 2019 John Marshall <jmarshall@users.sourceforge.net> - 1.9-4
+- Remove unneeded pkg-config keywords for static linking, which generated
+  unnecessary htslib-devel dependencies.
+- Explicitly list zlib-devel dependency, needed for htslib-1.9.
+
 * Sun Oct 27 2019 Jun Aruga <jaruga@redhat.com> - 1.9-3
 - Fix a bug that %%{_libexecdir}/%%{name} directory is not removed,
   when uninstalling the package "rpm -e htslib".
