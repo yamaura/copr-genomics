@@ -20,6 +20,10 @@ BuildRequires: libcurl-devel
 BuildRequires: openssl-devel
 BuildRequires: xz-devel
 BuildRequires: zlib-devel
+# It's used in make test.
+BuildRequires: perl-interpreter
+BuildRequires: perl-Data-Dumper
+BuildRequires: perl-Getopt-Long
 
 %description
 HTSlib is an implementation of a unified C library for accessing common file
@@ -74,6 +78,9 @@ popd
 find %{buildroot} -name '*.la' -delete
 rm -f %{buildroot}/%{_libdir}/libhts.a
 
+%check
+make test
+
 %ldconfig_scriptlets
 
 %files
@@ -113,6 +120,7 @@ rm -f %{buildroot}/%{_libdir}/libhts.a
   unnecessary htslib-devel dependencies.
 - Explicitly list zlib-devel dependency, needed for htslib-1.9.
 - Align the field delimiter as 1 space.
+- Add check section and "make test" in it.
 
 * Sun Oct 27 2019 Jun Aruga <jaruga@redhat.com> - 1.9-3
 - Fix a bug that %%{_libexecdir}/%%{name} directory is not removed,
