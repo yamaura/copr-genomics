@@ -1,25 +1,25 @@
 # The value of Makefile LIBHTS_SOVERSION.
 %global so_version 2
 
-Name:           htslib
-Version:        1.9
-Release:        4%{?dist}
-Summary:        C library for high-throughput sequencing data formats
+Name: htslib
+Version: 1.9
+Release: 4%{?dist}
+Summary: C library for high-throughput sequencing data formats
 
 # The entire source code is MIT/Expat except cram/ which is Modified-BSD.
 # But as there is no "Expat" license in short name list, set "MIT".
 # Expat license is same with MIT license.
 # https://lists.fedoraproject.org/archives/list/legal@lists.fedoraproject.org/thread/C5AHVIW3F6LF5CYLR2PSHNANFYKP327P/
-License:        MIT and BSD
-URL:            http://www.htslib.org
-Source0:        https://github.com/samtools/%{name}/releases/download/%{version}/%{name}-%{version}.tar.bz2
+License: MIT and BSD
+URL: http://www.htslib.org
+Source0: https://github.com/samtools/%{name}/releases/download/%{version}/%{name}-%{version}.tar.bz2
 
-BuildRequires:  gcc
-BuildRequires:  bzip2-devel
-BuildRequires:  libcurl-devel
-BuildRequires:  openssl-devel
-BuildRequires:  xz-devel
-BuildRequires:  zlib-devel
+BuildRequires: gcc
+BuildRequires: bzip2-devel
+BuildRequires: libcurl-devel
+BuildRequires: openssl-devel
+BuildRequires: xz-devel
+BuildRequires: zlib-devel
 
 %description
 HTSlib is an implementation of a unified C library for accessing common file
@@ -27,23 +27,23 @@ formats, such as SAM, CRAM and VCF, used for high-throughput sequencing data,
 and is the core library used by samtools and bcftools.
 
 
-%package        devel
-Summary:        Development files for %{name}
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+%package devel
+Summary: Development files for %{name}
+Requires: %{name}%{?_isa} = %{version}-%{release}
 # zlib-devel is required for 1.9; remove when bumping to next HTSlib release.
 # See <https://github.com/samtools/htslib/commit/7a215862ccfeffac12584d754836f66ce2641a47>
-Requires:       zlib-devel
+Requires: zlib-devel
 
-%description    devel
+%description devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
 
-%package        tools
-Summary:        Additional htslib-based tools
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+%package tools
+Summary: Additional htslib-based tools
+Requires: %{name}%{?_isa} = %{version}-%{release}
 
-%description    tools
+%description tools
 Includes the popular tabix indexer, which indexes both .tbi and .csi formats,
 the htsfile identifier tool, and the bgzip compression utility.
 
@@ -112,6 +112,7 @@ rm -f %{buildroot}/%{_libdir}/libhts.a
 - Remove unneeded pkg-config keywords for static linking, which generated
   unnecessary htslib-devel dependencies.
 - Explicitly list zlib-devel dependency, needed for htslib-1.9.
+- Align the field delimiter as 1 space.
 
 * Sun Oct 27 2019 Jun Aruga <jaruga@redhat.com> - 1.9-3
 - Fix a bug that %%{_libexecdir}/%%{name} directory is not removed,
