@@ -115,12 +115,14 @@ make test
 
 
 %changelog
+* Sat Nov 09 2019 Jun Aruga <jaruga@redhat.com> - 1.9-4
+- Align the field delimiter as 1 space.
+- Add check section and "make test" in it.
+
 * Tue Nov 05 2019 John Marshall <jmarshall@users.sourceforge.net> - 1.9-4
 - Remove unneeded pkg-config keywords for static linking, which generated
   unnecessary htslib-devel dependencies.
 - Explicitly list zlib-devel dependency, needed for htslib-1.9.
-- Align the field delimiter as 1 space.
-- Add check section and "make test" in it.
 
 * Sun Oct 27 2019 Jun Aruga <jaruga@redhat.com> - 1.9-3
 - Fix a bug that %%{_libexecdir}/%%{name} directory is not removed,
