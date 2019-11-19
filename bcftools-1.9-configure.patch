@@ -1,0 +1,43 @@
+--- bcftools-1.9-clean/config.mk.in	2018-03-15 14:28:19.000000000 +0000
++++ bcftools-1.9-after/config.mk.in	2019-11-06 22:13:02.000000000 +0000
+@@ -50,7 +50,8 @@
+ 
+ PLATFORM   = @PLATFORM@
+ PLUGINS_ENABLED = @enable_bcftools_plugins@
+-plugindir = @bcf_plugindir@
++plugindir  = @bcf_plugindir@
++pluginpath = @bcf_pluginpath@
+ PLUGIN_EXT = @PLUGIN_EXT@
+ 
+ @Hsource@HTSDIR = @HTSDIR@
+--- bcftools-1.9-clean/configure.ac	2018-07-03 16:54:58.000000000 +0100
++++ bcftools-1.9-after/configure.ac	2019-11-06 22:13:02.000000000 +0000
+@@ -71,7 +71,7 @@
+      no)  with_bcf_plugin_path= ;;
+    esac],
+   [with_bcf_plugin_path=$with_bcf_plugin_dir])
+-AC_SUBST([PLUGINPATH], $with_bcf_plugin_path)
++AC_SUBST([bcf_pluginpath], $with_bcf_plugin_path)
+ 
+ AC_ARG_ENABLE([perl-filters],
+   [AS_HELP_STRING([--enable-perl-filters],
+--- bcftools-1.9-clean/configure	2019-11-06 22:16:31.000000000 +0000
++++ bcftools-1.9-after/configure	2019-11-06 22:16:43.000000000 +0000
+@@ -588,7 +588,7 @@
+ HTSDIR
+ subdirs
+ enable_perl_filters
+-PLUGINPATH
++bcf_pluginpath
+ bcf_plugindir
+ enable_bcftools_plugins
+ GREP
+@@ -3237,7 +3237,7 @@
+   with_bcf_plugin_path=$with_bcf_plugin_dir
+ fi
+ 
+-PLUGINPATH=$with_bcf_plugin_path
++bcf_pluginpath=$with_bcf_plugin_path
+ 
+ 
+ # Check whether --enable-perl-filters was given.

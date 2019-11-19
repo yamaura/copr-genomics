@@ -1,0 +1,76 @@
+diff --git a/misc/guess-ploidy.py b/misc/guess-ploidy.py
+index 816a5c6..6ad3d36 100755
+--- a/misc/guess-ploidy.py
++++ b/misc/guess-ploidy.py
+@@ -24,6 +24,8 @@
+ # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ # DEALINGS IN THE SOFTWARE.
+ 
++from __future__ import print_function
++
+ import matplotlib as mpl
+ mpl.use('Agg')
+ import matplotlib.pyplot as plt
+@@ -33,8 +35,9 @@ import csv
+ csv.register_dialect('tab', delimiter='\t', quoting=csv.QUOTE_NONE)
+ 
+ if len(sys.argv) != 3:
+-    print >> sys.stderr, 'About: Plot output of "bcftools +guess-ploidy -v"'
+-    print >> sys.stderr, 'Usage: guess-ploidy.py <guess-ploidy.out> <image-prefix>'
++    print("""\
++About: Plot output of "bcftools +guess-ploidy -v"
++Usage: guess-ploidy.py <guess-ploidy.out> <image-prefix>""", file = sys.stderr)
+     sys.exit()
+ 
+ prefix = sys.argv[2]
+diff --git a/misc/plot-roh.py b/misc/plot-roh.py
+index 81efaaa..90dd63e 100755
+--- a/misc/plot-roh.py
++++ b/misc/plot-roh.py
+@@ -29,26 +29,27 @@ csv.register_dialect('tab', delimiter='\t', quoting=csv.QUOTE_NONE)
+ 
+ def usage(msg=None):
+     if msg==None:
+-        print 'Usage: plot.py [OPTIONS] <dir>'
+-        print 'Options:'
+-        print '   -H, --highlight +group1,-group2       Highlight calls shared within group1 but not present in group2'
+-        print '   -i, --interactive                     Run interactively'
+-        print '   -l, --min-length <num>                Filter input regions shorter than this [0]'
+-        print '   -n, --min-markers <num>               Filter input regions with fewer marker than this [0]'
+-        print '   -o, --outfile <file>                  Output file name [plot.png]'
+-        print '   -q, --min-qual <num>                  Filter input regions with quality smaller than this [0]'
+-        print '   -r, --region [^]<chr|chr:beg-end>     Plot this chromosome/region only'
+-        print '   -s, --samples <file>                  List of samples to show, rename or group: "name[\\tnew_name[\\tgroup]]"'
+-        print '   -h, --help                            This usage text'
+-        print 'Matplotlib options:'
+-        print '   +adj, --adjust <str>          Set plot adjust [bottom=0.18,left=0.07,right=0.98]'
+-        print '   +dpi, --dpi <num>             Set bitmap DPI [150]'
+-        print '   +sxt, --show-xticks           Show x-ticks (genomic coordinate)'
+-        print '   +twh, --track-wh <num,num>    Set track width and height [20,1]'
+-        print '   +xlb, --xlabel <str>          Set x-label'
+-        print '   +xli, --xlimit <num>          Extend x-range by this fraction [0.05]'
++        print("""\
++Usage: plot-roh.py [OPTIONS] <dir>
++Options:
++   -H, --highlight +group1,-group2       Highlight calls shared within group1 but not present in group2
++   -i, --interactive                     Run interactively
++   -l, --min-length <num>                Filter input regions shorter than this [0]
++   -n, --min-markers <num>               Filter input regions with fewer marker than this [0]
++   -o, --outfile <file>                  Output file name [plot.png]
++   -q, --min-qual <num>                  Filter input regions with quality smaller than this [0]
++   -r, --region [^]<chr|chr:beg-end>     Plot this chromosome/region only
++   -s, --samples <file>                  List of samples to show, rename or group: "name[\\tnew_name[\\tgroup]]"
++   -h, --help                            This usage text
++Matplotlib options:
++   +adj, --adjust <str>          Set plot adjust [bottom=0.18,left=0.07,right=0.98]
++   +dpi, --dpi <num>             Set bitmap DPI [150]
++   +sxt, --show-xticks           Show x-ticks (genomic coordinate)
++   +twh, --track-wh <num,num>    Set track width and height [20,1]
++   +xlb, --xlabel <str>          Set x-label
++   +xli, --xlimit <num>          Extend x-range by this fraction [0.05]""")
+     else:
+-        print msg
++        print(msg)
+     sys.exit(1)
+ 
+ dir          = None
