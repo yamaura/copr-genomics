@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	1.9
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 License:	MIT
@@ -89,6 +89,9 @@ make test
 
 
 %changelog
+* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Mon Nov 04 2019 Jun Aruga <jaruga@redhat.com> - 1.9-1
 - Update to 1.9
 - Remove devel and libs sub packges, as "make dylib" was removed.
