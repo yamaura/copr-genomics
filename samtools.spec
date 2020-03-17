@@ -1,6 +1,6 @@
 Name:		samtools
 Version:	1.9
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 License:	MIT
@@ -14,7 +14,9 @@ BuildRequires:	ncurses-devel
 BuildRequires:	zlib-devel
 # It's used in make test.
 BuildRequires:	perl-interpreter
-BuildRequires:	perl-Getopt-Long
+BuildRequires:	perl(FindBin)
+BuildRequires:	perl(Getopt::Long)
+BuildRequires:	perl(lib)
 
 %description
 SAM (Sequence Alignment/Map) is a flexible generic format for storing
@@ -89,6 +91,9 @@ make test
 
 
 %changelog
+* Tue Mar 17 2020 Jun Aruga <jaruga@redhat.com> - 1.9-3
+- Fix the build failure adding perl(FindBin) and perl(lib) build dependencies.
+
 * Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
