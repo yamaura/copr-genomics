@@ -3,7 +3,7 @@
 
 Name: htslib
 Version: 1.9
-Release: 5%{?dist}
+Release: 6%{?dist}
 Summary: C library for high-throughput sequencing data formats
 
 # The entire source code is MIT/Expat except cram/ which is Modified-BSD.
@@ -22,8 +22,10 @@ BuildRequires: xz-devel
 BuildRequires: zlib-devel
 # It's used in make test.
 BuildRequires: perl-interpreter
-BuildRequires: perl-Data-Dumper
-BuildRequires: perl-Getopt-Long
+BuildRequires: perl(Data::Dumper)
+BuildRequires: perl(FindBin)
+BuildRequires: perl(Getopt::Long)
+BuildRequires: perl(lib)
 
 %description
 HTSlib is an implementation of a unified C library for accessing common file
@@ -115,6 +117,9 @@ make test
 
 
 %changelog
+* Tue Mar 17 2020 Jun Aruga <jaruga@redhat.com> - 1.9-6
+- Fix the build failure adding perl(FindBin) and perl(lib) build dependencies.
+
 * Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
 
