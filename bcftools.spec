@@ -1,6 +1,6 @@
 Name: bcftools
 Version: 1.9
-Release: 3%{?dist}
+Release: 4%{?dist}
 Summary: Tools for genomic variant calling and manipulating VCF/BCF files
 
 # This software is available under a choice of one of two licenses,
@@ -91,6 +91,9 @@ make test
 
 
 %changelog
+* Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.9-4
+- Perl 5.32 rebuild
+
 * Tue Mar 17 2020 Jun Aruga <jaruga@redhat.com> - 1.9-3
 - Fix the build failure adding perl(FindBin) build dependency.
 
