@@ -1,6 +1,6 @@
 Name: bcftools
 Version: 1.9
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: Tools for genomic variant calling and manipulating VCF/BCF files
 
 # This software is available under a choice of one of two licenses,
@@ -91,6 +91,9 @@ make test
 
 
 %changelog
+* Mon Jul 27 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-5
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_33_Mass_Rebuild
+
 * Mon Jun 22 2020 Jitka Plesnikova <jplesnik@redhat.com> - 1.9-4
 - Perl 5.32 rebuild
 
