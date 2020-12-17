@@ -26,6 +26,7 @@ BuildRequires: perl(File::Temp)
 BuildRequires: perl(FindBin)
 BuildRequires: perl(Getopt::Long)
 BuildRequires: zlib-devel
+BuildRequires: make
 # bcftools had been included in samtools version 0.X.
 # https://github.com/samtools/samtools/commit/e7ae7f96c7e78a2dd6eabdaed57037c483951929
 Conflicts: samtools < 1.0
