@@ -26,6 +26,7 @@ BuildRequires: perl(Data::Dumper)
 BuildRequires: perl(FindBin)
 BuildRequires: perl(Getopt::Long)
 BuildRequires: perl(lib)
+BuildRequires: make
 
 %description
 HTSlib is an implementation of a unified C library for accessing common file
