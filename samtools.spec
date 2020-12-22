@@ -10,6 +10,7 @@ Source0:	https://github.com/%{name}/%{name}/releases/download/%{version}/%{name}
 BuildRequires:	gcc
 BuildRequires:	htslib-devel
 BuildRequires:	htslib-tools
+BuildRequires:	make
 BuildRequires:	ncurses-devel
 BuildRequires:	zlib-devel
 # It's used in make test.
