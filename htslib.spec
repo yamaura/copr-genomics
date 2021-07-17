@@ -1,9 +1,9 @@
 # The value of Makefile LIBHTS_SOVERSION.
-%global so_version 2
+%global so_version 3
 
 Name: htslib
-Version: 1.9
-Release: 9%{?dist}
+Version: 1.13
+Release: 1%{?dist}
 Summary: C library for high-throughput sequencing data formats
 
 # The entire source code is MIT/Expat except cram/ which is Modified-BSD.
@@ -37,9 +37,6 @@ and is the core library used by samtools and bcftools.
 %package devel
 Summary: Development files for %{name}
 Requires: %{name}%{?_isa} = %{version}-%{release}
-# zlib-devel is required for 1.9; remove when bumping to next HTSlib release.
-# See <https://github.com/samtools/htslib/commit/7a215862ccfeffac12584d754836f66ce2641a47>
-Requires: zlib-devel
 
 %description devel
 The %{name}-devel package contains libraries and header files for
@@ -51,7 +48,7 @@ Summary: Additional htslib-based tools
 Requires: %{name}%{?_isa} = %{version}-%{release}
 
 %description tools
-Includes the popular tabix indexer, which indexes both .tbi and .csi formats,
+Includes the popular tabix indexer, which creates both .tbi and .csi formats,
 the htsfile identifier tool, and the bgzip compression utility.
 
 
@@ -97,10 +94,12 @@ make test
 %{_libexecdir}/%{name}/hfile_gcs.so
 %{_libexecdir}/%{name}/hfile_libcurl.so
 %{_libexecdir}/%{name}/hfile_s3.so
+%{_libexecdir}/%{name}/hfile_s3_write.so
 # The man5 pages are aimed at users.
 %{_mandir}/man5/faidx.5*
 %{_mandir}/man5/sam.5*
 %{_mandir}/man5/vcf.5*
+%{_mandir}/man7/htslib-s3-plugin.7*
 
 %files devel
 %dir %{_includedir}/%{name}
@@ -118,6 +117,14 @@ make test
 
 
 %changelog
+* Fri Jul 23 2021 John Marshall <jmarshall@hey.com> - 1.13-1
+- Update to HTSlib version 1.13
+- Bump soversion to 3 (the upstream soversion changed in HTSlib 1.10)
+- Remove zlib-devel dependency as HTSlib headers no longer #include <zlib.h>
+- Fix description: tabix creates .tbi/.csi by indexing other file formats
+  (BAM, VCF, etc)
+- Add new S3 man page and additional plugin
+
 * Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-9
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
