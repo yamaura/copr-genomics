@@ -1,6 +1,6 @@
 Name: bcftools
-Version: 1.9
-Release: 8%{?dist}
+Version: 1.13
+Release: 1%{?dist}
 Summary: Tools for genomic variant calling and manipulating VCF/BCF files
 
 # This software is available under a choice of one of two licenses,
@@ -13,8 +13,6 @@ License: GPLv3+
 # https:// is better than http://.
 URL: https://www.htslib.org/
 Source0: https://github.com/samtools/%{name}/releases/download/%{version}/%{name}-%{version}.tar.bz2
-Patch0: bcftools-1.9-python3.patch
-Patch1: bcftools-1.9-configure.patch
 
 BuildRequires: gcc
 BuildRequires: gsl-devel
@@ -47,11 +45,9 @@ is built without the polysomy subcommand.)
 
 %prep
 %setup -q
-%patch0 -p1 -b .py3
-%patch1 -p1 -b .conf
 
 sed -i '1s|/usr/bin/env perl|/usr/bin/perl|' misc/*.pl misc/plot-vcfstats
-sed -i '1s|/usr/bin/env python|%{__python3}|' misc/*.py
+sed -i '1s|/usr/bin/env python3\{0,1\}|%{__python3}|' misc/*.py
 
 
 %build
@@ -82,6 +78,7 @@ make test
 # to problems when the name changes or something additional is installed.
 %{_bindir}/bcftools
 %{_bindir}/color-chrs.pl
+%{_bindir}/gff2gff.py
 %{_bindir}/guess-ploidy.py
 %{_bindir}/plot-roh.py
 %{_bindir}/plot-vcfstats
@@ -92,6 +89,12 @@ make test
 
 
 %changelog
+* Fri Jul 23 2021 John Marshall <jmarshall@hey.com> - 1.13-1
+- Update to BCFtools version 1.13
+- Remove outdated patches which have been applied upstream
+- Update Python shebang rewriting to handle both "python" and "python3"
+- Package gff2gff.py script, added in BCFtools 1.11
+
 * Wed Jul 21 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
