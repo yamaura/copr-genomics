@@ -3,7 +3,7 @@
 
 Name: htslib
 Version: 1.9
-Release: 8%{?dist}
+Release: 9%{?dist}
 Summary: C library for high-throughput sequencing data formats
 
 # The entire source code is MIT/Expat except cram/ which is Modified-BSD.
@@ -118,6 +118,9 @@ make test
 
 
 %changelog
+* Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-9
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.9-8
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
