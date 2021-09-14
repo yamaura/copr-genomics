@@ -3,7 +3,7 @@
 
 Name: htslib
 Version: 1.13
-Release: 1%{?dist}
+Release: 2%{?dist}
 Summary: C library for high-throughput sequencing data formats
 
 # The entire source code is MIT/Expat except cram/ which is Modified-BSD.
@@ -117,6 +117,9 @@ make test
 
 
 %changelog
+* Tue Sep 14 2021 Sahana Prasad <sahana@redhat.com> - 1.13-2
+- Rebuilt with OpenSSL 3.0.0
+
 * Fri Jul 23 2021 John Marshall <jmarshall@hey.com> - 1.13-1
 - Update to HTSlib version 1.13
 - Bump soversion to 3 (the upstream soversion changed in HTSlib 1.10)
