@@ -13,6 +13,8 @@ Summary: C library for high-throughput sequencing data formats
 License: MIT and BSD
 URL: http://www.htslib.org
 Source0: https://github.com/samtools/%{name}/releases/download/%{version}/%{name}-%{version}.tar.bz2
+# Work around a bug found using gcc-12 -O2.
+# https://github.com/samtools/htscodecs/commit/65bb347f6b0ea7f4a00cb768b3d8004f24ae03c3
 Patch0:  htslib-1.15.1-gcc12.patch
 
 BuildRequires: gcc
