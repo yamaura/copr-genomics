@@ -1,6 +1,6 @@
 Name:		samtools
-Version:	1.15.1
-Release:	2%{?dist}
+Version:	1.20
+Release:	1%{?dist}
 Summary:	Tools for nucleotide sequence alignments in the SAM format
 
 License:	MIT
@@ -58,7 +58,7 @@ make test
 
 
 %files
-%doc AUTHORS ChangeLog.old NEWS examples/
+%doc AUTHORS ChangeLog.old NEWS.md examples/
 %license LICENSE
 # We do not use a wildcard to list bin files, because this often leads
 # to problems when the name changes or something additional is installed.
@@ -90,6 +90,9 @@ make test
 
 
 %changelog
+* Mon Jun 03 2024 Yuki Yamaura <yamaura@pezy.co.jp> - 1.20
+- Update to samtools version 1.20
+
 * Sat Jan 21 2023 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
 
