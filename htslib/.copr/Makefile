@@ -2,7 +2,7 @@
 
 all: srpm
 
-srpm: htslib.spec
+srpm: htslib.spec /usr/bin/spectool
 	spectool -g $<
 	rpmbuild -bs $< --define "_sourcedir $(PWD)" --define "_srcrpmdir $(outdir)"
 
