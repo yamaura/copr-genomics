@@ -2,8 +2,8 @@
 %global so_version 3
 
 Name: htslib
-Version: 1.15.1
-Release: 2%{?dist}
+Version: 1.20
+Release: 1%{?dist}
 Summary: C library for high-throughput sequencing data formats
 
 # The entire source code is MIT/Expat except cram/ which is Modified-BSD.
@@ -13,9 +13,6 @@ Summary: C library for high-throughput sequencing data formats
 License: MIT and BSD
 URL: http://www.htslib.org
 Source0: https://github.com/samtools/%{name}/releases/download/%{version}/%{name}-%{version}.tar.bz2
-# Work around a bug found using gcc-12 -O2.
-# https://github.com/samtools/htscodecs/commit/65bb347f6b0ea7f4a00cb768b3d8004f24ae03c3
-Patch0:  htslib-1.15.1-gcc12.patch
 
 BuildRequires: gcc
 BuildRequires: bzip2-devel
@@ -57,7 +54,6 @@ the htsfile identifier tool, and the bgzip compression utility.
 
 %prep
 %setup -q
-%patch0 -p1
 
 %build
 %configure CFLAGS="%{optflags}" LDFLAGS="%{build_ldflags}" \
@@ -112,15 +108,20 @@ make test
 %{_libdir}/pkgconfig/htslib.pc
 
 %files tools
+%{_bindir}/annot-tsv
 %{_bindir}/bgzip
 %{_bindir}/htsfile
 %{_bindir}/tabix
+%{_mandir}/man1/annot-tsv.1*
 %{_mandir}/man1/bgzip.1*
 %{_mandir}/man1/htsfile.1*
 %{_mandir}/man1/tabix.1*
 
 
 %changelog
+* Mon Jun 03 2024 Yuki Yamaura <yamaura@pezy.co.jp> - 1.20
+- Update to HTSlib version 1.20
+
 * Thu Jan 19 2023 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
 
