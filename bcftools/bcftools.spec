@@ -1,6 +1,6 @@
 Name: bcftools
-Version: 1.15.1
-Release: 3%{?dist}
+Version: 1.20
+Release: 1%{?dist}
 Summary: Tools for genomic variant calling and manipulating VCF/BCF files
 
 # This software is available under a choice of one of two licenses,
@@ -13,9 +13,6 @@ License: GPLv3+
 # https:// is better than http://.
 URL: https://www.htslib.org/
 Source0: https://github.com/samtools/%{name}/releases/download/%{version}/%{name}-%{version}.tar.bz2
-# Fix test_vcf_plugin tests.
-# https://github.com/samtools/bcftools/commit/0676ccfb710778129f0337aa4ea3fa014f7c97fb
-Patch0: bcftools-1.15.1-aarch64-fix-vcf_plugin-tests.patch
 
 BuildRequires: gcc
 BuildRequires: gsl-devel
@@ -48,7 +45,6 @@ is built without the polysomy subcommand.)
 
 %prep
 %setup -q
-%patch0 -p1
 
 sed -i '1s|/usr/bin/env perl|/usr/bin/perl|' misc/*.pl misc/plot-vcfstats
 sed -i '1s|/usr/bin/env python3\{0,1\}|%{__python3}|' misc/*.py
@@ -98,6 +94,9 @@ make test
 
 
 %changelog
+* Mon Jun 03 2024 Yuki Yamaura <yamaura@pezy.co.jp> - 1.20
+- Update to BCFtools version 1.20
+
 * Wed Jan 18 2023 Fedora Release Engineering <releng@fedoraproject.org> - 1.15.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_38_Mass_Rebuild
 
